@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Main Stack creating VPC, then EC2 Instance in Public Subnet
+
+Parameters:
+  KeyName:
+    Description: Name of an existing EC2 KeyPair
+    Type: AWS::EC2::KeyPair::KeyName
+
+  CrossAccountRoleName:
+    Type: String
+    Description: The name of the cross-account IAM role
+
+  ExternalAccountId:
+    Type: String
+    Description: The AWS Account ID of the target account
+
+Resources:
+  CrossAccountRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref CrossAccountRoleName
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub arn:aws:iam::${ExternalAccountId}:root
+            Action: sts:AssumeRole
+
+  VPCTemplate:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: "https://s3.amazonaws.com/poc-pipeline-01/templates/vpc.yaml"
+      TimeoutInMinutes: "15"
+
+  EC2Template:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: "https://s3.amazonaws.com/poc-pipeline-01/templates/ec2.yaml"
+      Parameters:
+        KeyName: !Ref KeyName
+        VpcId: !GetAtt VPCTemplate.Outputs.VpcId
+        PublicSubnetId: !GetAtt VPCTemplate.Outputs.PublicSubnetId
+      TimeoutInMinutes: "30"
+      RoleARN: !GetAtt CrossAccountRole.Arn

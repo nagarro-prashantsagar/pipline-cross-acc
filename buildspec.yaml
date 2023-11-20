@@ -1,18 +1,23 @@
 version: 0.2
+
 phases:
   install:
     runtime-versions:
       python: 3.10
+  pre_build:
     commands:
       - echo "Installing dependencies..."
-      - pip install -r requirements.txt -t lib
-    build:
-      commands:
-        - echo "Zipping deployment package..."
-        - zip -g deployment_package.zip lambda_function.py
-    post_build:
-      commands:
-      - echo "Updating Lambda Function..."
-      - aws lambda update-function-code --function-name github-to-lambda --zip-file fileb://deployment_package.zip --publish
-      - echo "DONE!!"
+      - pip install -r requirements.txt -t .
+  build:
+    commands:
+      - echo "Build phase"
+      # Additional build commands or tests can be added here
+  post_build:
+    commands:
+      - echo "Post build phase"
+      - aws cloudformation package --template-file template.yml --s3-bucket $S3_BUCKET_NAME --output-template-file packaged-template.yml
 
+artifacts:
+  type: zip
+  files:
+    - packaged-template.yml

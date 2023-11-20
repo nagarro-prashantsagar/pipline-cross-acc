@@ -1,8 +1,16 @@
 import json
+import boto3
 
 def lambda_handler(event, context):
-    # TODO implement
-    return {
+    s3 = boto3.client('s3')
+    bucket_name = 'cicd-shared-assets'
+    key = 'lambda/my-lambda-code.zip'
+
+    # Your Lambda function logic here
+
+    response = {
         'statusCode': 200,
-        'body': json.dumps('Hello Prashant sagar!')
+        'body': json.dumps('Hello from Lambda!')
     }
+
+    return response

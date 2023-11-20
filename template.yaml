@@ -14,7 +14,7 @@ Resources:
       Timeout: 60
       MemorySize: 128
       Code:
-        S3Bucket: !Ref cicd-shared-assets
+        S3Bucket: !Ref MyS3Bucket
         S3Key: lambda/my-lambda-code.zip
 
   MyLambdaRole:

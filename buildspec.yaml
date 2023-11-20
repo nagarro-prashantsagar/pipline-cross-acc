@@ -12,8 +12,8 @@ phases:
     commands:
       - echo "Build phase"
       - aws cloudformation package --template-file template.yaml --s3-bucket update-lambda-code --output-template-file packaged-template.yaml
-      - zip -r my-lambda-code.zip lambda_function.py   # Package your Lambda function code
-      - aws s3 cp my-lambda-code.zip s3://update-lambda-code/lambda/my-lambda-code.zip
+      - zip -r my-code.zip lambda_function.py   
+      - aws s3 cp my-code.zip s3://update-lambda-code/lambda/my-code.zip
 artifacts:
   type: zip
   files:

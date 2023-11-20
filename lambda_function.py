@@ -4,7 +4,7 @@ import boto3
 def lambda_handler(event, context):
     s3 = boto3.client('s3')
     bucket_name = 'update-lambda-code'
-    key = 'lambda/my-lambda-code.zip'
+    key = 'lambda/my-code.zip'
 
     # Your Lambda function logic here
 

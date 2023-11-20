@@ -11,9 +11,9 @@ phases:
   build:
     commands:
       - echo "Build phase"
-      - aws cloudformation package --template-file template.yaml --s3-bucket cicd-shared-assets --output-template-file packaged-template.yaml
+      - aws cloudformation package --template-file template.yaml --s3-bucket update-lambda-code --output-template-file packaged-template.yaml
       - zip -r my-lambda-code.zip lambda_function.py   # Package your Lambda function code
-      - aws s3 cp my-lambda-code.zip s3://cicd-shared-assets/lambda/my-lambda-code.zip
+      - aws s3 cp my-lambda-code.zip s3://update-lambda-code/lambda/my-lambda-code.zip
 artifacts:
   type: zip
   files:

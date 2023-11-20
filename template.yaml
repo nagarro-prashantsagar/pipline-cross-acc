@@ -4,7 +4,7 @@ Resources:
   MyS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: cicd-shared-assets
+      BucketName: update-lambda-code
 
   MyLambdaFunction:
     Type: AWS::Lambda::Function

@@ -18,7 +18,7 @@ Resources:
       MemorySize: 128
       Code:
         S3Bucket:
-          Ref: MyS3Bucket
+          Ref: cicd-shared-assets
         S3Key: lambda/my-lambda-code.zip
 
   MyLambdaRole:

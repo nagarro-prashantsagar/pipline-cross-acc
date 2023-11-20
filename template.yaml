@@ -1,9 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
 Resources:
-  MyS3Bucket:
-    Type: AWS::S3::Bucket
-
   MyLambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
@@ -17,9 +14,8 @@ Resources:
       Timeout: 60
       MemorySize: 128
       Code:
-        S3Bucket:
-          Ref: MyS3Bucket
-        S3Key: lamb/my-code.zip
+        S3Bucket: update-lambda-code
+        S3Key: lambda/my-code.zip
 
   MyLambdaRole:
     Type: AWS::IAM::Role
@@ -40,13 +36,9 @@ Resources:
                 Action:
                   - s3:PutObject
                   - s3:GetObject
-                Resource: !Sub "arn:aws:s3:::${MyS3Bucket}/*"
+                Resource: !Sub "arn:aws:s3:::update-lambda-code/*"
 
 Outputs:
   MyLambdaFunctionArn:
     Value: !GetAtt MyLambdaFunction.Arn
     Description: "ARN of the Lambda Function"
-
-  MyS3BucketName:
-    Value: !Ref MyS3Bucket
-    Description: "Name of the S3 Bucket"

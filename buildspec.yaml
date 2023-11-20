@@ -15,9 +15,9 @@ phases:
   post_build:
     commands:
       - echo "Post build phase"
-      - aws cloudformation package --template-file template.yml --s3-bucket cicd-shared-assets --output-template-file packaged-template.yml
+      - aws cloudformation package --template-file template.yaml --s3-bucket cicd-shared-assets --output-template-file packaged-template.yaml
 
 artifacts:
   type: zip
   files:
-    - packaged-template.yml
+    - packaged-template.yaml

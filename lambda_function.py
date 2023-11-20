@@ -6,8 +6,6 @@ def lambda_handler(event, context):
     bucket_name = 'update-lambda-code'
     key = 'lambda/my-code.zip'
 
-    # Your Lambda function logic here
-
     response = {
         'statusCode': 200,
         'body': json.dumps('Hello, This is prashant sagar!')

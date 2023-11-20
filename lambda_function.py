@@ -10,7 +10,7 @@ def lambda_handler(event, context):
 
     response = {
         'statusCode': 200,
-        'body': json.dumps('Hello from Lambda!')
+        'body': json.dumps('Hello, This is prashant sagar!')
     }
 
     return response

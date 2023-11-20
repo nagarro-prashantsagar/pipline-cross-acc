@@ -11,13 +11,14 @@ phases:
   build:
     commands:
       - echo "Build phase"
-      # Additional build commands or tests can be added here
+      # Add any additional build commands or tests here
   post_build:
     commands:
       - echo "Post build phase"
-      - aws cloudformation package --template-file template.yaml --s3-bucket cicd-shared-assets --output-template-file artifacts.yaml
+      - aws cloudformation package --template-file template.yaml --s3-bucket cicd-shared-assets --output-template-file packaged-template.yaml
+      - mv packaged-template.yaml $CODEBUILD_SRC_DIR/
 
 artifacts:
   type: zip
   files:
-    - artifacts.yaml
+    - packaged-template.yaml

@@ -51,12 +51,12 @@ Resources:
           - GetLatestS3ObjectVersionRole
           - Arn
       FunctionName: GetLatestS3ObjectVersion
-      Runtime: python3.8
+      Runtime: python3.11
       Timeout: 30
       MemorySize: 128
       Code:
-        S3Bucket: !Ref AWS::AccountId
-        S3Key: lambda/my-code.zip
+        S3Bucket: update-lambda-code
+        S3Key: custom-resources/get-latest-s3-version.zip
 
   GetLatestS3ObjectVersionRole:
     Type: AWS::IAM::Role

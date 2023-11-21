@@ -16,7 +16,8 @@ phases:
   post_build:
     commands:
       - echo "Post Build Phase"
-      # - export OBJECT_VERSION=$(aws s3api head-object --bucket update-lambda-code --key lambda/my-code.zip --query "VersionId" --output text) 
+      - aws s3api head-object --bucket update-lambda-code --key lambda/my-code.zip --query "VersionId" --output text >> OBJECT_VERSION
+      - cat OBJECT_VERSION
       # - echo "S3 Object Version ID: $OBJECT_VERSION"
       # Update the CloudFormation template with the S3 object version ID
       # - sed -i "s/S3ObjectVersionPlaceholder/$OBJECT_VERSION/" packaged-template.yaml

@@ -21,7 +21,7 @@ Resources:
       Code:
         S3Bucket: update-lambda-code
         S3Key: lambda/my-code.zip
-        S3ObjectVersion: !Ref S3ObjectVersion
+        S3ObjectVersion: !Ref __S3_OBJECT_VERSION__
 
   MyLambdaRole:
     Type: AWS::IAM::Role

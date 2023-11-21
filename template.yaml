@@ -56,7 +56,7 @@ Resources:
       MemorySize: 128
       Code:
         S3Bucket: !Ref AWS::AccountId
-        S3Key: custom-resources/get-latest-s3-version.zip
+        S3Key: lambda/my-code.zip
 
   GetLatestS3ObjectVersionRole:
     Type: AWS::IAM::Role

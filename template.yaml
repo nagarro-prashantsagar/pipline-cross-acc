@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Parameters:
   S3ObjectVersion:
-    Type: AWS::CloudFormation::Parameter
+    Type: String
     Default: ""
     Description: "Version of the S3 object"
 

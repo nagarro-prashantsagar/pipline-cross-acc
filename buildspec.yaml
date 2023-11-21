@@ -14,15 +14,17 @@ phases:
       - zip -r my-code.zip lambda_function.py   
       - aws s3 cp my-code.zip s3://update-lambda-code/lambda/my-code.zip
   post_build:
-    commands:
-      - echo "Post Build Phase"
-      - aws s3 ls s3://update-lambda-code/ 
-      - aws s3api head-object --bucket update-lambda-code --key lambda/my-code.zip --query "VersionId" --output text
-      # - echo "S3 Object Version ID: $OBJECT_VERSION"
-      # Update the CloudFormation template with the S3 object version ID
-      # - sed -i "s/S3ObjectVersionPlaceholder/$OBJECT_VERSION/" packaged-template.yaml
-      # # Display the modified CloudFormation template
-      # - cat packaged-template.yaml
+  commands:
+    - echo "Post Build Phase"
+    # Retrieve the S3 object version ID
+    - |
+      OBJECT_VERSION=$(aws s3api head-object --bucket update-lambda-code --key lambda/my-code.zip --query "VersionId" --output text)
+      echo "S3 Object Version ID: $OBJECT_VERSION"
+    # Update the CloudFormation template with the S3 object version ID
+    - sed -i "s/S3ObjectVersionPlaceholder/$OBJECT_VERSION/" packaged-template.yaml
+    # Display the modified CloudFormation template
+    - cat packaged-template.yaml
+
 
 
 artifacts:

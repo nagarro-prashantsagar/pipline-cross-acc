@@ -41,7 +41,7 @@ Resources:
   GetLatestS3ObjectVersion:
     Type: AWS::Lambda::Function
     Properties:
-      Handler: lambda_function.lambda_handler  # Updated handler name
+      Handler: lambda_handler 
       Role: !GetAtt GetLatestS3ObjectVersionRole.Arn
       FunctionName: GetLatestS3ObjectVersion
       Runtime: python3.11

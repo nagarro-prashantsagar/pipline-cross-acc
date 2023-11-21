@@ -18,16 +18,26 @@ Resources:
         S3Key: lambda/my-code.zip
         S3ObjectVersion:
           Fn::GetAtt:
-            - MyLambdaBucket
+            - GetLatestS3ObjectVersion
             - VersionId
 
-  MyLambdaBucket:
-    Type: AWS::S3::Bucket
+  GetLatestS3ObjectVersion:
+    Type: AWS::Lambda::Function
     Properties:
-      VersioningConfiguration:
-        Status: Enabled
+      Handler: index.handler
+      Role:
+        Fn::GetAtt:
+          - GetLatestS3ObjectVersionRole
+          - Arn
+      FunctionName: GetLatestS3ObjectVersion
+      Runtime: python3.8
+      Timeout: 30
+      MemorySize: 128
+      Code:
+        S3Bucket: !Ref AWS::AccountId
+        S3Key: custom-resources/get-latest-s3-version.zip
 
-  MyLambdaRole:
+  GetLatestS3ObjectVersionRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -38,14 +48,14 @@ Resources:
               Service: lambda.amazonaws.com
             Action: sts:AssumeRole
       Policies:
-        - PolicyName: LambdaS3Policy
+        - PolicyName: GetLatestS3ObjectVersionPolicy
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
               - Effect: Allow
                 Action:
-                  - s3:PutObject
-                  - s3:GetObject
+                  - s3:GetObjectVersion
+                  - s3:ListObjectVersions
                 Resource: !Sub "arn:aws:s3:::update-lambda-code/*"
 
 Outputs:

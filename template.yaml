@@ -1,6 +1,24 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
 Resources:
+  MyLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: lambda_function.lambda_handler
+      Role:
+        Fn::GetAtt:
+        - MyLambdaRole
+        - Arn
+      FunctionName: MyLambdaFunction
+      Runtime: python3.11
+      Timeout: 60
+      MemorySize: 128
+      Code:
+        S3Bucket: update-lambda-code
+        S3Key: lambda/my-code.zip
+        S3ObjectVersion: 'a3eIp944buH3gdn8HI33WjM8PSVESGm'
+      
+
   MyLambdaRole:
     Type: AWS::IAM::Role
     Properties:
@@ -20,56 +38,6 @@ Resources:
                 Action:
                   - s3:PutObject
                   - s3:GetObject
-                Resource: !Sub "arn:aws:s3:::update-lambda-code/*"
-
-  MyLambdaFunction:
-    Type: AWS::Lambda::Function
-    Properties:
-      Handler: lambda_function.lambda_handler  # Updated handler name
-      Role: !GetAtt MyLambdaRole.Arn
-      FunctionName: MyLambdaFunction
-      Runtime: python3.11
-      Timeout: 60
-      MemorySize: 128
-      Code:
-        S3Bucket: update-lambda-code
-        S3Key: lambda/my-code.zip
-      Environment:
-        Variables:
-          LATEST_S3_VERSION_FUNCTION: !GetAtt GetLatestS3ObjectVersion.Arn
-
-  GetLatestS3ObjectVersion:
-    Type: AWS::Lambda::Function
-    Properties:
-      Handler: lambda_handler 
-      Role: !GetAtt GetLatestS3ObjectVersionRole.Arn
-      FunctionName: GetLatestS3ObjectVersion
-      Runtime: python3.11
-      Timeout: 30
-      MemorySize: 128
-      Code:
-        S3Bucket: update-lambda-code
-        S3Key: lambda/my-code.zip
-
-  GetLatestS3ObjectVersionRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: lambda.amazonaws.com
-            Action: sts:AssumeRole
-      Policies:
-        - PolicyName: GetLatestS3ObjectVersionPolicy
-          PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              - Effect: Allow
-                Action:
-                  - s3:GetObjectVersion
-                  - s3:ListObjectVersions
                 Resource: !Sub "arn:aws:s3:::update-lambda-code/*"
 
 Outputs:

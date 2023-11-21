@@ -1,8 +1,9 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Parameters:
   S3ObjectVersion:
-    Type: String
+    Type: AWS::CloudFormation::Parameter
     Default: ""
+    Description: "Version of the S3 object"
 
 Resources:
   MyLambdaFunction:
@@ -21,8 +22,6 @@ Resources:
         S3Bucket: update-lambda-code
         S3Key: lambda/my-code.zip
         S3ObjectVersion: !Ref S3ObjectVersion
-        # S3ObjectVersion: 'a3eIp944buH3gdn8HI33WjM8PSVESGm'
-      
 
   MyLambdaRole:
     Type: AWS::IAM::Role

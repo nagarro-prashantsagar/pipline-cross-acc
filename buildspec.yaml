@@ -21,8 +21,7 @@ phases:
         OBJECT_VERSION=$(aws s3api head-object --bucket update-lambda-code --key lambda/my-code.zip --query "VersionId" --output text)
         echo "S3 Object Version ID: $OBJECT_VERSION"
       # Update the CloudFormation template with the S3 object version ID
-      - sed -i "s/S3ObjectVersion/$OBJECT_VERSION/" packaged-template.yaml
-      # Display the modified CloudFormation template
+      - sed -i "s/S3ObjectVersion/$(echo "$OBJECT_VERSION" | sed 's/[^a-zA-Z0-9]/_/g')/" packaged-template.yaml      # Display the modified CloudFormation template
       - cat packaged-template.yaml
 
 artifacts:

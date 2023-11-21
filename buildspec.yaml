@@ -20,7 +20,7 @@ phases:
       - |
         OBJECT_VERSION=$(aws s3api head-object --bucket update-lambda-code --key lambda/my-code.zip --query "VersionId" --output text)
         echo "S3 Object Version ID: $OBJECT_VERSION"
-      - sed -i "s/S3ObjectVersion/$(echo "$OBJECT_VERSION" | sed 's/[^a-zA-Z0-9]/_/g')/" packaged-template.yaml     
+      - sed -i "s/S3_OBJECT_VERSION/$(echo "$OBJECT_VERSION" | sed 's/[^a-zA-Z0-9]/_/g')/" packaged-template.yaml     
       - cat packaged-template.yaml
 
 artifacts:

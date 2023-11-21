@@ -25,7 +25,7 @@ Resources:
   MyLambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
-      Handler: lambda_function.lambda_handler
+      Handler: lambda_function.lambda_handler  # Updated handler name
       Role: !GetAtt MyLambdaRole.Arn
       FunctionName: MyLambdaFunction
       Runtime: python3.11
@@ -41,7 +41,7 @@ Resources:
   GetLatestS3ObjectVersion:
     Type: AWS::Lambda::Function
     Properties:
-      Handler: index.handler
+      Handler: lambda_function.lambda_handler  # Updated handler name
       Role: !GetAtt GetLatestS3ObjectVersionRole.Arn
       FunctionName: GetLatestS3ObjectVersion
       Runtime: python3.11

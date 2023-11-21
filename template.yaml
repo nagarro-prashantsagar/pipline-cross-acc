@@ -7,8 +7,8 @@ Resources:
       Handler: lambda_function.lambda_handler
       Role:
         Fn::GetAtt:
-        - MyLambdaRole
-        - Arn
+          - MyLambdaRole
+          - Arn
       FunctionName: MyLambdaFunction
       Runtime: python3.11
       Timeout: 60
@@ -18,14 +18,14 @@ Resources:
         S3Key: lambda/my-code.zip
         S3ObjectVersion:
           Fn::GetAtt:
-          - MyLambdaCode
-          - Version
+            - MyLambdaBucket
+            - VersionId
 
-  MyLambdaCode:
-    Type: AWS::S3::Object
+  MyLambdaBucket:
+    Type: AWS::S3::Bucket
     Properties:
-      Bucket: update-lambda-code
-      Key: lambda/my-code.zip
+      VersioningConfiguration:
+        Status: Enabled
 
   MyLambdaRole:
     Type: AWS::IAM::Role
